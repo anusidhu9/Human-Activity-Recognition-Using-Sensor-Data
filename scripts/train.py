@@ -13,7 +13,7 @@ from har.db.schema import get_engine
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=["rf", "cnn"], required=True)
+    parser.add_argument("--model", choices=["rf", "cnn", "lstm"], required=True)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--device", choices=["cpu", "cuda"], default=None,
                         help="default: CUDA if available, else CPU")

@@ -92,6 +92,7 @@ class TorchTrainConfig:
     weight_decay: float = 1e-4
     patience: int = 10  # early stopping on validation macro-F1
     num_threads: int = 4  # fixed CPU threads so timings are comparable
+    grad_clip: float | None = None  # max gradient norm; standard for RNNs, off for the CNN
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -114,7 +115,8 @@ class LSTMConfig:
     num_layers: int = 2
     dropout: float = 0.3
     bidirectional: bool = False
-    train: TorchTrainConfig = field(default_factory=TorchTrainConfig)
+    pool: str = "last"  # "last" hidden state or "mean" over time
+    train: TorchTrainConfig = field(default_factory=lambda: TorchTrainConfig(grad_clip=1.0))
 
     def to_dict(self) -> dict:
         return asdict(self)

@@ -102,6 +102,8 @@ def fit(model: nn.Module, data: PreparedData, tcfg: TorchTrainConfig, seed: int,
                 opt.zero_grad()
                 loss = loss_fn(model(xb), yb)
                 loss.backward()
+                if tcfg.grad_clip is not None:
+                    nn.utils.clip_grad_norm_(model.parameters(), tcfg.grad_clip)
                 opt.step()
                 total += loss.item() * len(yb)
                 n += len(yb)
