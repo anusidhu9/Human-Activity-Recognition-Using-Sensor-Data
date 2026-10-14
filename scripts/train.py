@@ -13,8 +13,10 @@ from har.db.schema import get_engine
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=["rf"], required=True)
+    parser.add_argument("--model", choices=["rf", "cnn"], required=True)
     parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--device", choices=["cpu", "cuda"], default=None,
+                        help="default: CUDA if available, else CPU")
     args = parser.parse_args()
 
     if not PATHS.db_path.exists():
@@ -28,6 +30,13 @@ def main() -> None:
         print(f"[rf] seed {args.seed} | train {len(data.X_train)} val {len(data.X_val)} "
               f"test {len(data.X_test)} | val subjects {data.val_subjects}")
         result = run_random_forest(data, engine, dataset_id, args.seed)
+    else:
+        from har.training.torch_trainer import run_torch_model
+        data = prepare_data("windows")
+        print(f"[{args.model}] seed {args.seed} | train {len(data.X_train)} val {len(data.X_val)} "
+              f"test {len(data.X_test)} | val subjects {data.val_subjects}")
+        result = run_torch_model(args.model, data, engine, dataset_id, args.seed,
+                                 device=args.device)
 
     m = result["test"]
     print(f"\n[done] run_id {result['run_id']} (experiment_id {result['experiment_id']})")
