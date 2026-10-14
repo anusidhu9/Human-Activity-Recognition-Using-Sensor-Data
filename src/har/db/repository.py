@@ -15,7 +15,9 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
 from har.config import ACTIVITY_LABELS
-from har.db.schema import Dataset, Experiment, Metric, Prediction, PredictionProb, Sample
+from har.db.schema import (
+    Dataset, ErrorAnnotation, Experiment, Metric, Prediction, PredictionProb, Sample,
+)
 
 
 def latest_dataset_id(engine: Engine) -> int:
@@ -87,6 +89,17 @@ def save_predictions(engine: Engine, experiment_id: int, eval_split: str,
             {"experiment_id": experiment_id, "sample_id": int(sid),
              "activity_id": int(aid), "prob": float(probs[i, j])}
             for i, sid in enumerate(sample_ids_) for j, aid in enumerate(activity_ids)
+        ])
+
+
+def save_error_annotations(engine: Engine, experiment_id: int, rows: list[dict]) -> None:
+    """Insert rows with sample_id, category and optional notes."""
+    if not rows:
+        return
+    with Session(engine) as s, s.begin():
+        s.execute(insert(ErrorAnnotation), [
+            {"experiment_id": experiment_id, "sample_id": r["sample_id"],
+             "category": r["category"], "notes": r.get("notes")} for r in rows
         ])
 
 

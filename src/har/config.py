@@ -70,7 +70,13 @@ class RFConfig:
     max_depth: int | None = None
     min_samples_leaf: int = 1
     max_features: str | float = "sqrt"
-    n_jobs: int = -1
+    n_jobs: int = 4  # same CPU parallelism as the torch models (fair timing)
+
+    # small grid searched on the validation subjects (test set never used)
+    grid: dict = field(default_factory=lambda: {
+        "max_features": ["sqrt", 0.2],
+        "min_samples_leaf": [1, 5],
+    })
 
     def to_dict(self) -> dict:
         return asdict(self)

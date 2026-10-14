@@ -70,6 +70,16 @@ def ensure_new_dir(path: str | Path) -> Path:
     return path
 
 
+def project_relative(path: str | Path) -> str:
+    """Project-relative POSIX path (absolute if outside the project), for storing in SQL."""
+    from har.config import PROJECT_ROOT
+
+    path = Path(path).resolve()
+    if PROJECT_ROOT in path.parents:
+        return path.relative_to(PROJECT_ROOT).as_posix()
+    return path.as_posix()
+
+
 class Timer:
     """Wall-clock timer usable as a context manager: ``with Timer() as t: ...; t.elapsed``."""
 
