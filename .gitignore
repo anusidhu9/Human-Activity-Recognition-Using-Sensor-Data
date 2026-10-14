@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+build/
+dist/
+
+# Data, databases and model outputs (large / regenerable; keep folder placeholders)
+data/raw/*
+data/processed/*
+db/*
+artifacts/checkpoints/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!db/.gitkeep
+!artifacts/checkpoints/.gitkeep
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

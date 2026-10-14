@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "har"
+version = "0.1.0"
+description = "Human Activity Recognition on the UCI HAR smartphone dataset: Random Forest vs 1D CNN vs LSTM"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "dataset: tests that need the downloaded UCI HAR dataset (skipped if absent)",
+]
