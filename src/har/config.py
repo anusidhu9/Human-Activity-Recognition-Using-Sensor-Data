@@ -111,11 +111,13 @@ class CNNConfig:
 
 @dataclass
 class LSTMConfig:
+    # Defaults = winner of scripts/tune_lstm.py (validation macro-F1 0.9084, seed 42).
+    # The original untuned setting was dropout 0.3, unidirectional, pool "last" (val 0.8790).
     hidden_size: int = 64
     num_layers: int = 2
-    dropout: float = 0.3
-    bidirectional: bool = False
-    pool: str = "last"  # "last" hidden state or "mean" over time
+    dropout: float = 0.5
+    bidirectional: bool = True
+    pool: str = "mean"  # "last" hidden state or "mean" over time
     train: TorchTrainConfig = field(default_factory=lambda: TorchTrainConfig(grad_clip=1.0))
 
     def to_dict(self) -> dict:

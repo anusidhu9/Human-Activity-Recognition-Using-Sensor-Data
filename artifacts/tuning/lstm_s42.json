@@ -1,0 +1,129 @@
+{
+  "seed": 42,
+  "val_subjects": [
+    3,
+    16,
+    22,
+    23
+  ],
+  "selection_metric": "val macro-F1",
+  "baseline": {
+    "name": "default (last pooling)",
+    "config": {
+      "hidden_size": 64,
+      "num_layers": 2,
+      "dropout": 0.3,
+      "bidirectional": false,
+      "pool": "last",
+      "train": {
+        "batch_size": 64,
+        "max_epochs": 60,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "patience": 10,
+        "num_threads": 4,
+        "grad_clip": 1.0
+      }
+    },
+    "note": "scored in experiment 3"
+  },
+  "results": [
+    {
+      "name": "mean_pool",
+      "config": {
+        "hidden_size": 64,
+        "num_layers": 2,
+        "dropout": 0.3,
+        "bidirectional": false,
+        "pool": "mean",
+        "train": {
+          "batch_size": 64,
+          "max_epochs": 60,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "patience": 10,
+          "num_threads": 4,
+          "grad_clip": 1.0
+        }
+      },
+      "n_params": 52870,
+      "best_val_macro_f1": 0.902257276610866,
+      "best_epoch": 5,
+      "epochs_run": 15,
+      "train_time_s": 154.99196980000124
+    },
+    {
+      "name": "bi_mean_pool",
+      "config": {
+        "hidden_size": 64,
+        "num_layers": 2,
+        "dropout": 0.3,
+        "bidirectional": true,
+        "pool": "mean",
+        "train": {
+          "batch_size": 64,
+          "max_epochs": 60,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "patience": 10,
+          "num_threads": 4,
+          "grad_clip": 1.0
+        }
+      },
+      "n_params": 138502,
+      "best_val_macro_f1": 0.8944697055765157,
+      "best_epoch": 6,
+      "epochs_run": 16,
+      "train_time_s": 439.97392309998395
+    },
+    {
+      "name": "mean_pool_lr5e-4",
+      "config": {
+        "hidden_size": 64,
+        "num_layers": 2,
+        "dropout": 0.3,
+        "bidirectional": false,
+        "pool": "mean",
+        "train": {
+          "batch_size": 64,
+          "max_epochs": 60,
+          "lr": 0.0005,
+          "weight_decay": 0.0001,
+          "patience": 10,
+          "num_threads": 4,
+          "grad_clip": 1.0
+        }
+      },
+      "n_params": 52870,
+      "best_val_macro_f1": 0.9031588510008612,
+      "best_epoch": 15,
+      "epochs_run": 25,
+      "train_time_s": 313.5644561999943
+    },
+    {
+      "name": "bi_mean_pool_dropout0.5",
+      "config": {
+        "hidden_size": 64,
+        "num_layers": 2,
+        "dropout": 0.5,
+        "bidirectional": true,
+        "pool": "mean",
+        "train": {
+          "batch_size": 64,
+          "max_epochs": 60,
+          "lr": 0.001,
+          "weight_decay": 0.0001,
+          "patience": 10,
+          "num_threads": 4,
+          "grad_clip": 1.0
+        }
+      },
+      "n_params": 138502,
+      "best_val_macro_f1": 0.9084418678271907,
+      "best_epoch": 14,
+      "epochs_run": 24,
+      "train_time_s": 782.0925764999993
+    }
+  ],
+  "selected": "bi_mean_pool_dropout0.5"
+}
